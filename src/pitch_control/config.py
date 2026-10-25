@@ -38,3 +38,50 @@ class VelocityConfig:
     window: int = 7
     polyorder: int = 1
     max_acceleration: float | None = 10.0
+
+
+@dataclass(frozen=True)
+class PitchControlConfig:
+    """Parameters of Spearman's (2018) pitch-control model.
+
+    Values follow the Friends of Tracking reference implementation, which
+    takes them from the paper unless noted.
+
+    reaction_time: seconds a player keeps moving at their current velocity
+        before they can change direction (s).
+    max_player_speed: speed at which a player then runs straight to the
+        target (m/s).
+    tti_sigma: uncertainty in a player's arrival time (s). The probability of
+        having arrived by time T is a logistic curve centred on the expected
+        arrival time with this standard deviation.
+    lambda_att: control rate (1/s): once a player is at the ball, how quickly
+        they bring it under control. 1/4.3 = 0.23 s on average.
+    kappa_def: defenders' control rate is lambda_att * kappa_def. The paper
+        uses 1.72 (defenders have an advantage); the reference code uses 1.
+    gk_factor: the defending goalkeeper's control rate is multiplied by this,
+        because they can use their hands. Reference-code choice, not the paper.
+    ball_speed: average ball speed used to compute travel time (m/s).
+    dt, max_time, convergence_tol: numerical integration settings (s, s, -).
+    offside: exclude attackers in an offside position (they cannot legally
+        receive a pass). offside_tol is a margin (m) for marginal positions.
+    integration: 'exponential' solves each time step exactly; 'euler' is the
+        first-order scheme used in the reference code (kept for comparison).
+    """
+
+    reaction_time: float = 0.7
+    max_player_speed: float = 5.0
+    tti_sigma: float = 0.45
+    lambda_att: float = 4.3
+    kappa_def: float = 1.0
+    gk_factor: float = 3.0
+    ball_speed: float = 15.0
+    dt: float = 0.04
+    max_time: float = 10.0
+    convergence_tol: float = 0.01
+    offside: bool = True
+    offside_tol: float = 0.2
+    integration: str = "exponential"
+
+    @property
+    def lambda_def(self) -> float:
+        return self.lambda_att * self.kappa_def

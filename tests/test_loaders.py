@@ -80,6 +80,13 @@ def test_event_players_exist_in_tracking(match):
         assert named <= set(match.players(team))
 
 
+def test_goalkeepers_detected(match):
+    # Metrica lists each team's goalkeeper first: Player11/Player25 in Games
+    # 1-2; channel 'player1' (= Player 11) and Player 28 in Game 3.
+    expected = {1: ("11", "25"), 2: ("11", "25"), 3: ("11", "28")}[match.game]
+    assert (match.goalkeeper("Home"), match.goalkeeper("Away")) == expected
+
+
 def test_game2_player_with_space_in_name_is_loaded():
     m = load_match(2)
     assert "26" in m.players("Away")

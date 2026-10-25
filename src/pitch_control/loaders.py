@@ -50,6 +50,14 @@ class Match:
         ids = self.players(team)
         return [f"{team}_{p}_x" for p in ids], [f"{team}_{p}_y" for p in ids]
 
+    def goalkeeper(self, team: str) -> str:
+        """Id of `team`'s goalkeeper: the player who is, on average, closest to
+        their own goal (Home defends -x, Away defends +x after standardising)."""
+        xs, _ = self.xy_columns(team)
+        mean_x = self.tracking[xs].mean()
+        column = mean_x.idxmin() if team == "Home" else mean_x.idxmax()
+        return column.split("_")[1]
+
 
 def load_match(game: int, data_dir: Path = DEFAULT_DATA_DIR,
                pitch: PitchDimensions = PitchDimensions()) -> Match:
