@@ -12,8 +12,12 @@ Figures: `python scripts/plot_pitch_control_frame.py` and `python scripts/animat
 ## One moment: the cross before Home's second goal
 ![Pitch control, one frame](../../outputs/figures/pitch_control_frame.png)
 
-Away's defence controls most of its penalty area, but there's a gap at the far
-side. Home 9 attacks that space, and Home 8's cross (dashed arrow) is played into it.
+Away's defence controls almost all of its penalty area. At the spot where Home 9
+met the cross (dashed arrow), the model gives Home only **16%** control: Home 9
+is right next to his marker, Away 18, and the goalkeeper is about 5 m away.
+Home 9 scored anyway by winning the header. This shows a limit of the model:
+it treats every ball as a pass along the ground and knows nothing about who is
+better in the air. The blue pocket inside the box is around Home 5, not Home 9.
 
 ## A whole attack: Away's counter-attack goal
 ![Away counter-attack](../../outputs/animations/game2_goal2.gif)
