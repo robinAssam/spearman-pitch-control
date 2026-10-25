@@ -185,10 +185,19 @@ def _team_state(row: pd.Series, team: str):
     return prefixes, pos, np.nan_to_num(vel)
 
 
-def pitch_control_at_frame(tracking: pd.DataFrame, frame: int, attacking_team: str,
-                           goalkeepers: dict[str, str], grid: Grid,
-                           config: PitchControlConfig = PitchControlConfig()) -> PitchControlSurface:
-    """Pitch-control surface for one frame.
+@dataclass
+class PointControl:
+    attack: np.ndarray            # (n_points,) probability the attacking team controls the ball there
+    defence: np.ndarray           # (n_points,)
+    player_ids: list              # column prefixes, attackers first
+    player_control: np.ndarray    # (n_points, n_players)
+    offside_players: list
+
+
+def pitch_control_at_points(tracking: pd.DataFrame, frame: int, attacking_team: str,
+                            goalkeepers: dict[str, str], points: np.ndarray,
+                            config: PitchControlConfig = PitchControlConfig()) -> PointControl:
+    """Pitch control at arbitrary points (n_points, 2) for one frame.
 
     tracking: output of `add_velocities` (positions in metres, standardised so
         Home attacks towards +x).
@@ -214,20 +223,33 @@ def pitch_control_at_frame(tracking: pd.DataFrame, frame: int, attacking_team: s
     lambdas = np.r_[np.full(len(att_ids), config.lambda_att),
                     [config.lambda_def * (config.gk_factor if p == gk else 1.0) for p in def_ids]]
 
-    points = grid.points
     tau = time_to_intercept(points, np.r_[att_pos, def_pos], np.r_[att_vel, def_vel],
                             config.reaction_time, config.max_player_speed)
     t_ball = ball_travel_time(points, ball, config.ball_speed)
     control = integrate_control(tau, lambdas, t_ball, config)
 
     n_att = len(att_ids)
+    return PointControl(attack=control[:, :n_att].sum(axis=1),
+                        defence=control[:, n_att:].sum(axis=1),
+                        player_ids=att_ids + def_ids,
+                        player_control=control,
+                        offside_players=offside)
+
+
+def pitch_control_at_frame(tracking: pd.DataFrame, frame: int, attacking_team: str,
+                           goalkeepers: dict[str, str], grid: Grid,
+                           config: PitchControlConfig = PitchControlConfig()) -> PitchControlSurface:
+    """Pitch-control surface over `grid` for one frame (see `pitch_control_at_points`)."""
+    result = pitch_control_at_points(tracking, frame, attacking_team, goalkeepers,
+                                     grid.points, config)
     shape = grid.shape
     return PitchControlSurface(
         frame=frame,
         attacking_team=attacking_team,
         grid=grid,
-        attack=control[:, :n_att].sum(axis=1).reshape(shape),
-        defence=control[:, n_att:].sum(axis=1).reshape(shape),
-        player_control={p: control[:, j].reshape(shape) for j, p in enumerate(att_ids + def_ids)},
-        offside_players=offside,
+        attack=result.attack.reshape(shape),
+        defence=result.defence.reshape(shape),
+        player_control={p: result.player_control[:, j].reshape(shape)
+                        for j, p in enumerate(result.player_ids)},
+        offside_players=result.offside_players,
     )
