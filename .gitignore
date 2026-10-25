@@ -5,10 +5,11 @@ __pycache__/
 venv/
 .ipynb_checkpoints/
 .pytest_cache/
+*.egg-info/
 
 # IDE
 .idea/
 
-# Raw data (downloaded, not committed)
+# Downloaded, not committed: raw data and the reference implementation
 data/raw/
-*.egg-info/
+data/reference/
