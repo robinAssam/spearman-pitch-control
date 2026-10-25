@@ -9,7 +9,7 @@ for every point on a grid gives the pitch-control surface.
 
 ![Pitch control, one frame](../../outputs/figures/pitch_control_frame.png)
 
-*Game 2, 49th minute: Home 8 (on the ball) passes to Home 9, who heads in a goal
+*Game 2, 50th minute: Home 8 (on the ball) crosses to Home 9, who heads in a goal
 one second later. Blue = Home would win the ball there, orange = Away would.*
 
 ## The model in four pieces
