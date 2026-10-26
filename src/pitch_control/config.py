@@ -21,14 +21,16 @@ FPS = 25  # Metrica tracking frame rate (verified: 0.04 s between all frames)
 class VelocityConfig:
     """Settings for estimating player velocities from positions.
 
-    max_speed: steps faster than this are tracking errors, not running. The
-        fastest footballers peak around 10-11 m/s, so 12 m/s leaves a margin.
+    max_speed: steps faster than this are tracking errors, not running. Elite
+        athletes' theoretical maximum speed is 7.5-11 m/s (Haugen et al., 2019,
+        doi:10.1371/journal.pone.0215551), so 12 m/s leaves a margin.
     window: Savitzky-Golay window in frames (7 frames = 0.28 s at 25 Hz). Must
         be odd. Longer windows are smoother but lag behind sharp turns.
     polyorder: degree of the local polynomial. 1 fits a straight line in each
         window, which is enough over 0.28 s and smooths the most.
     max_acceleration: largest change in velocity per second (m/s^2) after
-        smoothing. Elite sprinters reach roughly 10 m/s^2; in the Metrica data
+        smoothing. Elite athletes' maximum horizontal force is 7-10 N/kg, i.e.
+        at most about 10 m/s^2 (Haugen et al., 2019); in the Metrica data
         99% of smoothed accelerations are below 5 m/s^2, while tracking
         artefacts reach 40+ m/s^2. None disables the limit (the standard
         method, as in the Friends of Tracking reference code).

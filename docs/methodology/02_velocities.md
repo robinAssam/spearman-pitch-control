@@ -13,8 +13,12 @@ velocity has to be calculated, and then cleaned.
 1. **Raw velocity:** change in position ÷ 0.04 s. Centimetre-level jitter in
    the positions becomes large speed noise (the grey line).
 2. **Speed cap (12 m/s):** faster steps are tracking errors. They're removed and
-   filled in from the neighbouring frames.
-3. **Savitzky-Golay smoothing:** fits a straight line to each 7-frame (0.28 s)
+   filled in from the neighbouring frames. Elite footballers' peak match speeds
+   average 29–32 km/h (8–9 m/s; [Silva et al., 2025](https://doi.org/10.5114/biolsport.2024.136089)),
+   and even their theoretical maximum stays below 11 m/s
+   ([Haugen et al., 2019](https://doi.org/10.1371/journal.pone.0215551)).
+3. **Savitzky-Golay smoothing** ([Savitzky & Golay, 1964](https://doi.org/10.1021/ac60214a047)):
+   fits a straight line to each 7-frame (0.28 s)
    window and keeps the value at its centre. It removes jitter but still follows
    real changes of pace.
 4. **Acceleration limit (10 m/s²):** velocity may change by at most 0.4 m/s per
@@ -26,7 +30,9 @@ Steps 1–3 are the standard method. Inspecting the data turned up artefacts the
 speed cap misses, because they're too *sudden* rather than too *fast*: a player
 jumps from standing still to a constant 11.85 m/s in one frame, moves in a
 perfect straight line, then stops instantly. That would take about 300 m/s²;
-elite sprinters reach about 10. In the data, 99% of smoothed accelerations are
+elite athletes, sprinters included, can produce at most 7–10 N of horizontal
+force per kg of body mass, i.e. 7–10 m/s²
+([Haugen et al., 2019](https://doi.org/10.1371/journal.pone.0215551)). In the data, 99% of smoothed accelerations are
 below 5 m/s², while artefacts reach 40+ m/s².
 
 ## Effect

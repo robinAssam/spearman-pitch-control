@@ -1,5 +1,9 @@
 # 3. Pitch-control model (Spearman, 2018)
 
+Paper: W. Spearman (2018), *Beyond Expected Goals*, MIT Sloan Sports Analytics Conference
+([copy](https://github.com/eddwebster/football_analytics/blob/master/research/papers/%5B2018%5D%20Beyond%20Expected%20Goals%20-%20William%20Spearman.pdf);
+the original conference link no longer works). All sources: [references](references.md).
+
 Code: [`model.py`](../../src/pitch_control/model.py). Parameters: `PitchControlConfig` in [`config.py`](../../src/pitch_control/config.py).
 Figure: `python scripts/plot_pitch_control_frame.py`.
 
@@ -33,7 +37,7 @@ one second later. Blue = Home would win the ball there, orange = Away would.*
 ## Choices and where the values come from
 | Setting | Value | Source |
 |---|---|---|
-| Reaction time, max speed, σ, λ | 0.7 s, 5 m/s, 0.45 s, 4.3 /s | Spearman (2018), as used in the reference code. The 0.7 s and 5 m/s are confirmed by a second source. |
+| Reaction time, max speed, σ, λ | 0.7 s, 5 m/s, 0.45 s, 4.3 /s | Spearman (2018), as used in the reference code. The 0.7 s and 5 m/s are confirmed by [Dop (2022)](https://staff.science.uva.nl/a.visser/education/masterProjects/Thesis_Ramon_Dop_MsDS.pdf), section 2. |
 | Ball speed | constant 15 m/s | Reference-code simplification |
 | Defender advantage κ | 1 (none) | The paper uses 1.72; the reference code uses 1. Configurable. |
 | Goalkeeper control rate | 3 × λ | Reference-code choice (goalkeepers can use their hands) |

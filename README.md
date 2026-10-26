@@ -103,9 +103,13 @@ outputs/             figures, animation, analysis and validation results
 ## Credits
 - **Data:** [Metrica Sports sample data](https://github.com/metrica-sports/sample-data)
 - **Model:** W. Spearman (2018), *Beyond Expected Goals*, MIT Sloan Sports Analytics Conference
+  ([copy](https://github.com/eddwebster/football_analytics/blob/master/research/papers/%5B2018%5D%20Beyond%20Expected%20Goals%20-%20William%20Spearman.pdf);
+  the original conference link no longer works). Its core assumptions are also stated in
+  [Dop (2022)](https://staff.science.uva.nl/a.visser/education/masterProjects/Thesis_Ramon_Dop_MsDS.pdf).
 - **Reference implementation used for validation:** Laurie Shaw,
   [LaurieOnTracking](https://github.com/Friends-of-Tracking-Data-FoTD/LaurieOnTracking) (Friends of Tracking).
   It's downloaded at run time and isn't included in this repository.
+- **All papers and sources**, including those behind the velocity limits: [references](docs/methodology/references.md)
 
 ## License
 The code is released under the [MIT License](LICENSE). The tracking and event data belong to Metrica Sports,

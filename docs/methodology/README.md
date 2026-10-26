@@ -9,4 +9,4 @@ Short explanations of each step of the project, with the figures they produce.
 5. [Visuals](05_visuals.md): a single moment and an animated goal, and how to read them
 6. [Match analysis](06_analysis.md): space and the scoreline, and where passes were played
 
-Reference: [what is in the raw data files](data_notes.md).
+Reference: [what is in the raw data files](data_notes.md), [papers and sources](references.md).
