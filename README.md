@@ -106,3 +106,7 @@ outputs/             figures, animation, analysis and validation results
 - **Reference implementation used for validation:** Laurie Shaw,
   [LaurieOnTracking](https://github.com/Friends-of-Tracking-Data-FoTD/LaurieOnTracking) (Friends of Tracking).
   It's downloaded at run time and isn't included in this repository.
+
+## License
+The code is released under the [MIT License](LICENSE). The tracking and event data belong to Metrica Sports,
+aren't included in this repository, and are subject to Metrica's own terms.
